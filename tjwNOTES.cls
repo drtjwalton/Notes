@@ -228,7 +228,7 @@
         {%
             {\color{ThmColor!75!black}\vrule width 0.3em}%
             \hspace{0.em}%
-    		\fboxsep=\FrameSep\colorbox{ThmColor!20}%
+    		\fboxsep=\FrameSep\colorbox{ThmColor!15}%
         }%
         \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
 	    \ifstrempty{#1}{%
@@ -260,7 +260,7 @@
         {%
             {\color{ThmColor!75!black}\vrule width 0.3em}%
             \hspace{0.em}%
-    		\fboxsep=\FrameSep\colorbox{ThmColor!20}%
+    		\fboxsep=\FrameSep\colorbox{ThmColor!15}%
         }%
         \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
 	    \ifstrempty{#1}{%
