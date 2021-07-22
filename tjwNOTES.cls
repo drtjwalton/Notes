@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesClass{tjwNOTES}
-    [2021/07/20 TimothyJWalton]
+    [2021/07/22 TimothyJWalton]
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrartcl}}
 \ProcessOptions\relax
@@ -205,7 +205,7 @@
         \end{@eg}
     }
 %%% DEFINITION
-    \definecolor{DefnColor}{RGB}{199,26,69}
+    \definecolor{DefnColor}{RGB}{190,22,34}
     \newtheorem*{@defn}{Definition}
     \newenvironment{defn}
     {\begin{@defn}
@@ -222,7 +222,7 @@
         \end{@defn}
     }
 %%% THEOREM
-    \definecolor{ThmColor}{RGB}{33,67,130}
+    \definecolor{ThmColor}{RGB}{0,127,176}
     \newcounter{thmcounter}
     \newenvironment{thm}[1]{
 	    \refstepcounter{thmcounter}
@@ -246,7 +246,7 @@
     {	\vspace{-0.6cm}
     	\def\FrameCommand
         {%
-    		{\color{ThmColor!90!black}\vrule width 0.3em}%
+    		{\color{ThmColor!90!black}\vrule width 0.34em}%
             \hspace{-0.5em}%
     		\setlength{\fboxrule}{1pt}
             \fboxsep=\FrameSep\fcolorbox{ThmColor}{white}%
