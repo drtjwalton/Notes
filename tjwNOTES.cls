@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesClass{tjwNOTES}
-    [2021/07/22 TimothyJWalton]
+    [2021/07/24 TimothyJWalton]
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrartcl}}
 \ProcessOptions\relax
@@ -43,9 +43,6 @@
     \reversemarginpar
     \renewcommand*{\marginfont}{\color{red}\footnotesize}
 \RequirePackage{mathtools}
-    \mathtoolsset{
-		showonlyrefs=true 
-		}
 \RequirePackage[framemethod=TikZ]{mdframed} 
 \RequirePackage{pgfplots}	
 	\pgfplotsset{compat=1.17}
@@ -88,26 +85,52 @@
 %%%% Page Style %%%%
 %%%%%%%%%%%%%%%%%%%%	
 \setlength{\parindent}{0cm}
-\RequirePackage[autooneside=false,automark,headsepline]{scrlayer-scrpage}
+\RequirePackage[autooneside=false,automark]{scrlayer-scrpage}
 	\setkomafont{section}{\LARGE\sffamily\bfseries}
+	\setkomafont{date}{\normalsize}
 	\RedeclareSectionCommand[   afterskip=0.2cm,
 	                            beforeskip=1cm]{section}
 
 	\clearpairofpagestyles
-	\ihead{\leftmark}
-	\ohead{\ifstr{\leftmark}{\rightmark}{}{\rightmark}}
-	\addtokomafont{pagehead}{\sf\upshape}
+	%\ihead{\leftmark}
+	%\ohead{\ifstr{\leftmark}{\rightmark}{}{\rightmark}}
+	%\addtokomafont{pagehead}{\sf\upshape}
 	\cfoot*{\thepage}
 	\addtokomafont{pagefoot}{\upshape}
-	\makeatletter
-		\newcommand*\addsubsec{\secdef\@addsubsec\@saddsubsec}
-		\newcommand*{\@addsubsec}{}
-		\def\@addsubsec[#1]#2{\subsection*{#2}\addcontentsline{toc}{subsection}{#1}
-			\if@twoside\ifx\@mkboth\markboth\markright{#1}\fi\fi
-		}
-		\newcommand*{\@saddsubsec}[1]{\subsection*{#1}\@mkboth{}{}}
-	\makeatother
+	%\makeatletter
+	%	\newcommand*\addsubsec{\secdef\@addsubsec\@saddsubsec}
+	%	\newcommand*{\@addsubsec}{}
+	%	\def\@addsubsec[#1]#2{\subsection*{#2}\addcontentsline{toc}{subsection}{#1}
+	%		\if@twoside\ifx\@mkboth\markboth\markright{#1}\fi\fi
+	%	}
+	%	\newcommand*{\@saddsubsec}[1]{\subsection*{#1}\@mkboth{}{}}
+	%\makeatother
+	
+%%%%%%%%%%%%%%%%%%%%
+%%%% TITLE PAGE %%%%
+%%%%%%%%%%%%%%%%%%%%
+\newif\ifsections
+\sectionsfalse
+\DeclareOption{sections}{\sectionstrue}
+\ProcessOptions\relax
 
+\makeatletter	
+	\def\@maketitle{%
+		\begin{center}
+			\ifsections
+				{\sffamily\bfseries\huge\@title} \\[1em]
+				{\Large\@author} \\[0.5em]
+				({\large\@date})
+			\else
+				{\sffamily\bfseries\Large\@title} \\[1em]
+				{\large\@author} \\[0.5em]
+				({\normalsize\@date})
+			\fi
+		\end{center}			
+		\bigskip\bigskip
+  	}
+\makeatother
+	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Command definitions %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -205,7 +228,7 @@
         \end{@eg}
     }
 %%% DEFINITION
-    \definecolor{DefnColor}{RGB}{190,22,34}
+    \definecolor{DefnColor}{RGB}{199,26,69}
     \newtheorem*{@defn}{Definition}
     \newenvironment{defn}
     {\begin{@defn}
@@ -222,7 +245,7 @@
         \end{@defn}
     }
 %%% THEOREM
-    \definecolor{ThmColor}{RGB}{0,127,176}
+    \definecolor{ThmColor}{RGB}{33,67,130}
     \newcounter{thmcounter}
     \newenvironment{thm}[1]{
 	    \refstepcounter{thmcounter}
@@ -246,7 +269,7 @@
     {	\vspace{-0.6cm}
     	\def\FrameCommand
         {%
-    		{\color{ThmColor!90!black}\vrule width 0.34em}%
+    		{\color{ThmColor!90!black}\vrule width 0.3em}%
             \hspace{-0.5em}%
     		\setlength{\fboxrule}{1pt}
             \fboxsep=\FrameSep\fcolorbox{ThmColor}{white}%
