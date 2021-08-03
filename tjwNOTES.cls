@@ -132,11 +132,15 @@
 	\def\@maketitle{%
 		\begin{center}
 			\ifsections
-				{\sffamily\bfseries\huge\@title} \\[1em]
+				\begin{spacing}{1.2}
+					\sffamily\bfseries\huge\@title
+				\end{spacing} 
 				{\Large\@author} \\[0.5em]
 				({\large\@date})
 			\else
-				{\sffamily\bfseries\Large\@title} \\[1em]
+				\begin{spacing}{1.2}
+					\sffamily\bfseries\Large\@title
+				\end{spacing}
 				{\large\@author} \\[0.5em]
 				({\normalsize\@date})
 			\fi
