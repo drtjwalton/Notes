@@ -5,9 +5,14 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrartcl}}
 \ProcessOptions\relax
 
+\tolerance=1
+\hyphenpenalty=10000
+\hbadness=10000
+
 \LoadClass[a4paper,bibliography=totoc]{scrartcl}
 
 \renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\abstractname}{\vspace{-\baselineskip}}
 
 \makeatletter
     \DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
@@ -30,6 +35,7 @@
 	\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 	\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 	\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\usepackage[greek,english]{babel}
 \RequirePackage{bm}
 \RequirePackage[open,openlevel=2]{bookmark}	
 \RequirePackage{enumitem} 
@@ -114,6 +120,14 @@
 \DeclareOption{sections}{\sectionstrue}
 \ProcessOptions\relax
 
+
+\renewenvironment{abstract}{\small	\begin{center}
+										\bfseries \vspace{-.5em}\vspace{0pt}
+									\end{center}
+									\quote
+									}
+									{\endquote}
+
 \makeatletter	
 	\def\@maketitle{%
 		\begin{center}
@@ -127,7 +141,6 @@
 				({\normalsize\@date})
 			\fi
 		\end{center}			
-		\bigskip\bigskip
   	}
 \makeatother
 	
@@ -135,6 +148,9 @@
 %%%% Command definitions %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
+	\newcommand{\g}{\texttt{g}}
+	\newcommand{\etaT}{\text{\large\begin{otherlanguage}{greek}\texttt{\texteta}\end{otherlanguage}}}
+	\newcommand{\M}{\mathcal{M}}
     \newcommand{\id}{\text{id}} 
     \DeclareMathOperator{\Exists}{\exists} 
     \DeclareMathOperator{\Forall}{\forall} 	
