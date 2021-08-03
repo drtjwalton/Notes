@@ -9,7 +9,7 @@
 \hyphenpenalty=10000
 \hbadness=10000
 
-\LoadClass[a4paper,bibliography=totoc]{scrartcl}
+\LoadClass[a4paper,bibliography=totoc,toc=sectionentrywithdots]{scrartcl}
 
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand{\abstractname}{\vspace{-\baselineskip}}
