@@ -50,6 +50,7 @@
     \renewcommand*{\marginfont}{\color{red}\footnotesize}
 \RequirePackage{mathtools}
 \RequirePackage[framemethod=TikZ]{mdframed} 
+\RequirePackage{pdfpages}
 \RequirePackage{pgfplots}	
 	\pgfplotsset{compat=1.17}
 \RequirePackage{setspace}
@@ -77,7 +78,9 @@
 				cross/.default={3pt}
 				}
 \RequirePackage{totcount}
+\RequirePackage{transparent}
 \RequirePackage{xcolor} 
+\RequirePackage{xifthen}
 \RequirePackage{hyperref} 	
 	\hypersetup{    colorlinks,
 		            linkcolor={red!50!black},
@@ -86,7 +89,7 @@
 		            pdfstartview={XYZ null null 1},
 		            bookmarksnumbered
 		            }
-		            
+		               		            
 %%%%%%%%%%%%%%%%%%%%
 %%%% Page Style %%%%
 %%%%%%%%%%%%%%%%%%%%	
@@ -151,121 +154,116 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Command definitions %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\makeatletter
-	\newcommand{\g}{\texttt{g}}
-	\newcommand{\etaT}{\text{\large\begin{otherlanguage}{greek}\texttt{\texteta}\end{otherlanguage}}}
-	\newcommand{\M}{\mathcal{M}}
-    \newcommand{\id}{\text{id}} 
-    \DeclareMathOperator{\Exists}{\exists} 
-    \DeclareMathOperator{\Forall}{\forall} 	
-    \newcommand{\st}{\;\operatorname{:}\;}
-    \newcommand{\RR}{\mathbb{R}} 		
-    \newcommand{\NN}{\mathbb{N}} 		
-    \newcommand{\ZZ}{\mathbb{Z}} 		
-    \newcommand{\QQ}{\mathbb{Q}} 		
-    \newcommand{\CC}{\mathbb{C}} 		
-    \newcommand\tensor{\otimes}	
-    \newcommand\w{\wedge}	
-    \newcommand\Lie{\mathcal{L}}
-    \newcommand\wh[1]{\widehat{#1}}
-    \newcommand\wt[1]{\widetilde{#1}}
-    \newcommand\conj[1]{\overline{#1}}	
-    \newcommand\df{\frac{}{}} 		
-    \newcommand\QUAD[1]{\quad\text{#1}\quad}	
-    \newcommand\QQUAD[1]{\qquad\text{#1}\qquad}
-    \newcommand\LRA{\Longrightarrow}			
-    \newcommand\lra{\longrightarrow}
-    \newcommand\qLRA{\quad\Longrightarrow\quad}	
-    \newcommand\qLLRA{\quad\Longleftrightarrow\quad}
-    \newcommand\ds{\displaystyle}
-    \newcommand\union{\cup}
-    \newcommand\intersect{\cap}
-    \newcommand\TWOSQMATRIX[4]{	\begin{pmatrix*}[r]
-	    							#1	&	#2	\\[0.1cm]
-		    						#3	&	#4
-			    				\end{pmatrix*}					
-				    			}
-    \newcommand\THREESQMATRIX[9]{	\begin{pmatrix*}[r]
-    									#1	&	#2	&	#3	\\[0.1cm]
-    									#4	&	#5	&	#6	\\[0.1cm]
-    									#7	&	#8	&	#9	
-    								\end{pmatrix*}					
-    								}
-    \newcommand\TWOTHREEMATRIX[6]{	\begin{pmatrix*}[r]
-    									#1	&	#2	&	#3	\\[0.1cm]
-    									#4	&	#5	&	#6	
-    								\end{pmatrix*}					
-    								}
-    \newcommand\THREETWOMATRIX[6]{	\begin{pmatrix*}[r]
-    									#1	&	#2 	\\[0.1cm]
-    									#3	&	#4 	\\[0.1cm]
-    									#5	&	#6 
-    								\end{pmatrix*}					
-    								}
-    \newcommand\TWOONEMATRIX[2]{	\begin{pmatrix*}[r]
-    									#1	\\[0.1cm]
-    									#2
-    								\end{pmatrix*}					
-    								}
-    \newcommand\THREEONEMATRIX[3]{	\begin{pmatrix*}[r]
-    									#1	\\[0.1cm]
-    									#2	\\[0.1cm]
-    									#3
-    								\end{pmatrix*}					
-    								}
-    \newcommand\TWOVEC[2]{	\begin{pmatrix*}[r]
-    							#1	\\[0.1cm]
-    							#2
-    						\end{pmatrix*}					
-    						}				
-    \newcommand\THREEVEC[3]{\begin{pmatrix*}[r]
-    							#1	\\[0.1cm]
-    							#2	\\[0.1cm]
-    							#3
-    						\end{pmatrix*}					
-    						}				
-\makeatother
-
+\newcommand{\g}{\texttt{g}}
+\newcommand{\etaT}{\text{\large\begin{otherlanguage}{greek}\texttt{\texteta}\end{otherlanguage}}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\id}{\text{id}} 
+\DeclareMathOperator{\Exists}{\exists} 
+\DeclareMathOperator{\Forall}{\forall} 	
+\newcommand{\st}{\;\operatorname{:}\;}
+\newcommand{\RR}{\mathbb{R}} 		
+\newcommand{\NN}{\mathbb{N}} 		
+\newcommand{\ZZ}{\mathbb{Z}} 		
+\newcommand{\QQ}{\mathbb{Q}} 		
+\newcommand{\CC}{\mathbb{C}} 		
+\newcommand\tensor{\otimes}	
+\newcommand\w{\wedge}	
+\newcommand\Lie{\mathcal{L}}
+\newcommand\wh[1]{\widehat{#1}}
+\newcommand\wt[1]{\widetilde{#1}}
+\newcommand\conj[1]{\overline{#1}}	
+\newcommand\df{\frac{}{}} 		
+\newcommand\QUAD[1]{\quad\text{#1}\quad}	
+\newcommand\QQUAD[1]{\qquad\text{#1}\qquad}
+\newcommand\LRA{\Longrightarrow}			
+\newcommand\lra{\longrightarrow}
+\newcommand\qLRA{\quad\Longrightarrow\quad}	
+\newcommand\qLLRA{\quad\Longleftrightarrow\quad}
+\newcommand\ds{\displaystyle}
+\newcommand\union{\cup}
+\newcommand\intersect{\cap}
+\newcommand\TWOSQMATRIX[4]{	\begin{pmatrix*}[r]
+								#1	&	#2	\\[0.1cm]
+								#3	&	#4
+							\end{pmatrix*}					
+							}
+\newcommand\THREESQMATRIX[9]{	\begin{pmatrix*}[r]
+									#1	&	#2	&	#3	\\[0.1cm]
+									#4	&	#5	&	#6	\\[0.1cm]
+									#7	&	#8	&	#9	
+								\end{pmatrix*}					
+								}
+\newcommand\TWOTHREEMATRIX[6]{	\begin{pmatrix*}[r]
+									#1	&	#2	&	#3	\\[0.1cm]
+									#4	&	#5	&	#6	
+								\end{pmatrix*}					
+								}
+\newcommand\THREETWOMATRIX[6]{	\begin{pmatrix*}[r]
+									#1	&	#2 	\\[0.1cm]
+									#3	&	#4 	\\[0.1cm]
+									#5	&	#6 
+								\end{pmatrix*}					
+								}
+\newcommand\TWOONEMATRIX[2]{	\begin{pmatrix*}[r]
+									#1	\\[0.1cm]
+									#2
+								\end{pmatrix*}					
+								}
+\newcommand\THREEONEMATRIX[3]{	\begin{pmatrix*}[r]
+									#1	\\[0.1cm]
+									#2	\\[0.1cm]
+									#3
+								\end{pmatrix*}					
+								}
+\newcommand\TWOVEC[2]{	\begin{pmatrix*}[r]
+							#1	\\[0.1cm]
+							#2
+						\end{pmatrix*}					
+						}				
+\newcommand\THREEVEC[3]{\begin{pmatrix*}[r]
+							#1	\\[0.1cm]
+							#2	\\[0.1cm]
+							#3
+						\end{pmatrix*}					
+						}				
+\newcommand{\incfig}[2]{\def\svgwidth{\columnwidth}\import{#1}{#2.pdf_tex}}
+    
 %%%%%%%%%%%%%%%%%%%%%%
 %%%% Environments %%%%
 %%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
 %%% EXAMPLE
     \definecolor{EGColor}{RGB}{255,133,12}
-    \newtheorem*{@eg}{Example}
-    \newenvironment{eg}
-    {\begin{@eg}
-        \def\FrameCommand
+	\newenvironment{eg}{
+	    \def\FrameCommand
         {%
             {\color{EGColor!90!black}\vrule width 0.3em}%
             \hspace{0.em}%
-            \fboxsep=\FrameSep\colorbox{EGColor!20}%
+    		\fboxsep=\FrameSep\colorbox{EGColor!20}%
         }%
         \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
-    }
+		{\bf Example} \\[0.2cm] 
+		}
     {%
         \endMakeFramed
-        \end{@eg}
-    }
+    }       
 %%% DEFINITION
     \definecolor{DefnColor}{RGB}{199,26,69}
-    \newtheorem*{@defn}{Definition}
-    \newenvironment{defn}
-    {\begin{@defn}
-        \def\FrameCommand
+	\newenvironment{defn}{
+	    \def\FrameCommand
         {%
             {\color{DefnColor!90!black}\vrule width 0.3em}%
             \hspace{0.em}%
-            \fboxsep=\FrameSep\colorbox{DefnColor!20}%
+    		\fboxsep=\FrameSep\colorbox{DefnColor!20}%
         }%
         \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
-    }
+		{\bf Definition}.
+		}
     {%
         \endMakeFramed
-        \end{@defn}
-    }
+    }    
 %%% THEOREM
-    \definecolor{ThmColor}{RGB}{33,67,130}
+    \definecolor{ThmColor}{RGB}{0,127,176}
     \newcounter{thmcounter}
     \newenvironment{thm}[1]{
 	    \refstepcounter{thmcounter}
@@ -289,7 +287,7 @@
     {	\vspace{-0.6cm}
     	\def\FrameCommand
         {%
-    		{\color{ThmColor!90!black}\vrule width 0.3em}%
+    		{\color{ThmColor!90!black}\vrule width 0.34em}%
             \hspace{-0.5em}%
     		\setlength{\fboxrule}{1pt}
             \fboxsep=\FrameSep\fcolorbox{ThmColor}{white}%
@@ -350,6 +348,41 @@
     {%
         \endMakeFramed
     }
+%%% LEARNING OBJECTIVES 
+	\newenvironment{lobjs}
+    {	\vspace{-0.6cm}
+    	\def\FrameCommand
+        {%
+    		{\color{ThmColor!90!black}\vrule width 0.6em}%
+            \hspace{-0.5em}%
+    		\setlength{\fboxrule}{1pt}
+            \fboxsep=\FrameSep\fcolorbox{ThmColor}{white}%
+        }%
+    	\MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
+    	Following completion of this chapter, you should be able to:
+    	\begin{LOBJS}
+    }
+    {	\end{LOBJS}
+		\vspace{-0.2cm}
+        \endMakeFramed	%
+    }
+%%% SOLUTION 
+    \newenvironment{soln}{%
+		\par\bigskip
+		\noindent
+		{\scriptsize \bf\MakeUppercase{Solution}}:
+		\leftskip=0.6cm\rightskip=0.6cm
+		}{	\par\medskip
+			}
+%%% NB (NOTE) 
+    \newenvironment{nb}{%
+		\par\bigskip
+		\noindent
+		\underline{\bf NB}:
+		\leftskip=1cm\rightskip=0em\itshape
+		}{\par\medskip}
 \makeatother
+
+
 
 
