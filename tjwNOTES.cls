@@ -55,7 +55,7 @@
 	\pgfplotsset{compat=1.17}
 \RequirePackage{setspace}
 \RequirePackage{tikz} 		
-	\usetikzlibrary{angles, arrows.meta, calc, decorations.markings, decorations.pathreplacing, patterns, positioning, quotes, shapes, shapes.geometric, shapes.misc, tikzmark, trees}
+	\usetikzlibrary{angles, arrows.meta, calc, decorations.markings, decorations.pathreplacing, patterns, positioning, quotes, shapes, shapes.geometric, shapes.misc, tikzmark, trees, intersections, fillbetween}
 	\tikzset{middlearrow/.style={	decoration={markings,
 									mark= at position 0.55 with {\arrow[scale=1.6]{#1}} ,
 									},
