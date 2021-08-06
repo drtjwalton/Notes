@@ -287,21 +287,19 @@
     }       
 %%% DEFINITION
     \definecolor{DefnColor}{RGB}{199,26,69}
-    \newtheorem*{@defn}{Definition}
-    \newenvironment{defn}
-    {\begin{@defn}
-        \def\FrameCommand
+	\newenvironment{defn}{
+	    \def\FrameCommand
         {%
             {\color{DefnColor!90!black}\vrule width 0.3em}%
             \hspace{0.em}%
-            \fboxsep=\FrameSep\colorbox{DefnColor!20}%
+    		\fboxsep=\FrameSep\colorbox{DefnColor!20}%
         }%
         \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
-    }
+		{\bf Definition}.
+		}
     {%
         \endMakeFramed
-        \end{@defn}
-    }
+    }    
 %%% THEOREM
     \definecolor{ThmColor}{RGB}{0,127,176}
     \newcounter{thmcounter}
@@ -422,8 +420,4 @@
 		\leftskip=1cm\rightskip=0em\itshape
 		}{\par\medskip}
 \makeatother
-
-
-
-
 
