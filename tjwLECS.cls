@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesClass{tjwLECS}
-    [2021/07/20 TimothyJWalton]
+    [2022/01/20 TimothyJWalton]
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \ProcessOptions\relax
@@ -20,6 +20,7 @@
 														{\MakeUppercase{#2}#3}
 														{#2#3}
 													}
+%\DeclareTOCStyleEntry[beforeskip=0.5cm]{chapter}{chapter}
 
 \renewcommand{\familydefault}{\sfdefault}
 
@@ -32,6 +33,25 @@
     \DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
     \DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
 \makeatother
+
+%%% CREATE COMMAND FOR HARDSECTION: A SECTION WITH AN AFTER THE NUMBER
+\DeclareNewSectionCommand[
+    afterskip=1.5ex plus .2ex,
+    beforeskip=-3.25ex plus -1ex minus -.2ex,
+    indent=0pt,
+    level=1,
+    font=\usekomafont{section},
+    tocindent=1.5em,
+    tocnumwidth=2.3em,
+    counterwithin=chapter,
+	style=section,
+	tocstyle=section
+	]{hardsection}
+\makeatletter
+	\let\c@hardsection\c@section
+	\@addtoreset{subsection}{hardsection}
+\makeatother
+\renewcommand{\thehardsection}{\arabic{chapter}.\arabic{section}*}
 
 %%%%%%%%%%%%%%%%%%
 %%%% Packages %%%%
@@ -69,9 +89,10 @@
 \RequirePackage{multirow}
 \RequirePackage{pgfplots}	
 	\pgfplotsset{compat=1.17}
+	\usepgfplotslibrary{fillbetween}
 \RequirePackage{setspace}
 \RequirePackage{tikz} 		
-	\usetikzlibrary{angles, arrows.meta, calc, decorations.markings, decorations.pathreplacing, patterns, positioning, quotes, shapes, shapes.geometric, shapes.misc, tikzmark, trees, intersections, fillbetween}
+	\usetikzlibrary{angles, arrows.meta, calc, decorations.markings, decorations.pathreplacing, patterns, positioning, quotes, shapes, shapes.geometric, shapes.misc, tikzmark, trees, intersections}
 	\tikzset{middlearrow/.style={	decoration={markings,
 									mark= at position 0.55 with {\arrow[scale=1.6]{#1}} ,
 									},
@@ -147,33 +168,33 @@
 	\def\@maketitle{%
 		\begin{center}
 			\begin{tabular}{c}
-				{\hspace{-2cm}\sffamily\bfseries\Large\@institution}\\[1em]
-				{\hspace{-2cm}\sffamily\Large\@date}\\[5em]
+				{\hspace{-0.5cm}\sffamily\bfseries\Large\@institution}\\[1em]
+				{\hspace{-0.5cm}\sffamily\Large\@date}\\[5em]
 				\setlength{\fboxsep}{3em}
-				\noindent\makebox[\textwidth][l]{	\hspace{-\dimexpr\oddsidemargin+1.63in}%
+				\noindent\makebox[\textwidth][l]{	\hspace{-\dimexpr\oddsidemargin+1.4in}%
 													\colorbox{TitleColour!50}{%
 														\parbox{\dimexpr\paperwidth-1\fboxsep}{%
 															\centering
-															\begin{varwidth}{\dimexpr\textwidth-2\fboxsep}
+															\begin{varwidth}{\dimexpr\textwidth-1\fboxsep}
 																\centering\sffamily\bfseries\Huge\@title
 															\end{varwidth}}
 															}%
 														}\\[10em]
-			\hspace{-2cm}\includegraphics[height=3cm]{uclan.png} \\[1.8cm]			
+			\hspace{-0.5cm}\includegraphics[height=3cm]{uclan.png} \\[1.8cm]			
 			\iftjwonly
-				\hspace{-1.2cm}
+				\hspace{-0.5cm}
 					\begin{tabular}{c}
 						{\sffamily lectures notes by} \\[0.4em]
 						{\sffamily\bfseries\Large Dr Timothy J. Walton} \\[0.8cm]
 						\begin{tabular}{rl}
-							{\sffamily o:} 	& {\sffamily Room ????} \\[0.3cm]
-							{\sffamily e:} 	& {\sffamily \href{mailto:????@uclan.ac.uk}{????@uclan.ac.uk}} \\[0.3cm]
-							{\sffamily t:} 	& {\sffamily $+44\; ????\; ??????$} \\[0.3cm]
+							{\sffamily o:} 	& {\sffamily LE116} \\[0.1cm]
+							{\sffamily e:} 	& {\sffamily \href{mailto:twalton@uclan.ac.uk}{twalton@uclan.ac.uk}} \\[0.1cm]
+							{\sffamily t:} 	& {\sffamily +44\; 1772\; 894023} \\[0.1cm]
 							{\sffamily tw:}	& {\sffamily \href{https://twitter.com/drtjwalton}{@drtjwalton}} \\
 						\end{tabular}
 					\end{tabular}
 			\else
-				\hspace{-1.8cm}
+				\hspace{-0.5cm}
 					\begin{tabular}{c}
 						{\sffamily lectures notes by} \\[0.4em]
 						{\sffamily\bfseries\Large\@author}
@@ -270,130 +291,124 @@
 %%%% Environments %%%%
 %%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
-%%% EXAMPLE
-    \definecolor{EGColor}{RGB}{255,133,12}
-	\newenvironment{eg}{
-	    \def\FrameCommand
-        {%
-            {\color{EGColor!90!black}\vrule width 0.3em}%
-            \hspace{0.em}%
-    		\fboxsep=\FrameSep\colorbox{EGColor!20}%
-        }%
-        \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
-		{\bf Example} \\[0.2cm] 
-		}
-    {%
-        \endMakeFramed
-    }       
-%%% DEFINITION
-    \definecolor{DefnColor}{RGB}{199,26,69}
-	\newenvironment{defn}{
-	    \def\FrameCommand
-        {%
-            {\color{DefnColor!90!black}\vrule width 0.3em}%
-            \hspace{0.em}%
-    		\fboxsep=\FrameSep\colorbox{DefnColor!20}%
-        }%
-        \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
-		{\bf Definition}.
-		}
-    {%
-        \endMakeFramed
-    }    
-%%% THEOREM
+
+%%% EXAMPLE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\definecolor{EGColor}{RGB}{255,133,12}
+	\newcounter{eg}[section]\setcounter{eg}{0}
+	\renewcommand{\theeg}{\arabic{section}.\arabic{eg}}
+	\newenvironment{eg}[1][]{%
+	\refstepcounter{eg}%
+		\ifstrempty{#1}%
+		{\mdfsetup{frametitle={	\tikz[baseline=(current bounding box.east),outer sep=0pt]
+								\node[anchor=east,rectangle, fill=white, draw=EGColor!40,line width=1.4pt, rounded corners]
+								{\strut Example~\theeg};}}
+		}%
+		{\mdfsetup{frametitle={	\tikz[baseline=(current bounding box.east),outer sep=0pt]
+								\node[anchor=east,rectangle, fill=white, draw=EGColor!40,line width=1.4pt,rounded corners]
+								{\strut Example~\theeg:~#1};}}%
+		}%
+		\mdfsetup{	innertopmargin=10pt,linecolor=EGColor!50,
+					linewidth=1.4pt,topline=true,
+					backgroundcolor=EGColor!20, roundcorner=8pt,
+					frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+					}
+		\begin{mdframed}[]
+		\def\gapcolor{EGColor!20}\relax%
+		}{\end{mdframed}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% DEFINITION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\definecolor{DefnColor}{RGB}{199,26,69}
+	\newcounter{defn}[section]\setcounter{defn}{0}
+	\renewcommand{\thedefn}{\arabic{section}.\arabic{defn}}
+	\newenvironment{defn}[1][]{%
+	\refstepcounter{defn}%
+	\ifstrempty{#1}%
+	{\mdfsetup{frametitle={	\tikz[baseline=(current bounding box.east),outer sep=0pt]
+							\node[anchor=east,rectangle,fill=white, line width=1.4pt,rounded corners]
+							{\strut Definition~\thedefn};}}
+	}%
+	{\mdfsetup{frametitle={	\tikz[baseline=(current bounding box.east),outer sep=0pt]
+							\node[anchor=east,rectangle,fill=white, draw=DefnColor!40,line width=1.4pt,rounded corners]
+							{\strut Definition~\thedefn:~#1};}}%
+	}%
+	\mdfsetup{	innertopmargin=10pt,linecolor=DefnColor!40,
+				linewidth=1.4pt,topline=true,
+				backgroundcolor=DefnColor!20, roundcorner=8pt,
+				frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+				}
+	\begin{mdframed}[]
+	\def\gapcolor{DefnColor!20}\relax%
+	}{\end{mdframed}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+%%% THEOREM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \definecolor{ThmColor}{RGB}{0,127,176}
-    \newcounter{thmcounter}
-    \newenvironment{thm}[1]{
-	    \refstepcounter{thmcounter}
-	    \def\@currentlabel{\arabic{thmcounter}}
-        \def\FrameCommand
-        {%
-            {\color{ThmColor!75!black}\vrule width 0.3em}%
-            \hspace{0.em}%
-    		\fboxsep=\FrameSep\colorbox{ThmColor!15}%
-        }%
-        \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
-	    \ifstrempty{#1}{%
-		    			{\bf Theorem\;\@currentlabel} \\[0.2cm] }{%
-					    {\bf Theorem\;\@currentlabel} \; (#1) \\[0.2cm] }
-	    }
-    {%
-        \endMakeFramed
-    }
-%%% PROOF  
-    \renewenvironment{proof}
-    {	\vspace{-0.6cm}
-    	\def\FrameCommand
-        {%
-    		{\color{ThmColor!90!black}\vrule width 0.34em}%
-            \hspace{-0.5em}%
-    		\setlength{\fboxrule}{1pt}
-            \fboxsep=\FrameSep\fcolorbox{ThmColor}{white}%
-        }%
-    	\MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
-    	{\bf Proof:}
-    }
-    {	\qed
-        \endMakeFramed	%
-    }
-%%% THEOREM* (NON-NUMBERED)
-    \newenvironment{thm*}[1]{
-        \def\FrameCommand
-        {%
-            {\color{ThmColor!75!black}\vrule width 0.3em}%
-            \hspace{0.em}%
-    		\fboxsep=\FrameSep\colorbox{ThmColor!15}%
-        }%
-        \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
-	    \ifstrempty{#1}{%
-		    			{\bf Theorem} \\[0.2cm] }{%
-					    {\bf Theorem} \; (#1) \\[0.2cm] }
-	    }
-    {%
-        \endMakeFramed
-    }
-%%% PROPOSITION
-    \newenvironment{prop}[1]{
-    	\refstepcounter{thmcounter}
-    	\def\@currentlabel{\arabic{thmcounter}}
-        \def\FrameCommand
-        {%
-            {\color{ThmColor!75!white}\vrule width 0.3em}%
-            \hspace{0.em}%
-    		\fboxsep=\FrameSep\colorbox{ThmColor!20}%
-        }%
-        \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
-    	\ifstrempty{#1}{%
-    					{\bf Proposition\;\@currentlabel} \\[0.2cm] }{%
-    					{\bf Proposition\;\@currentlabel} \; (#1) \\[0.2cm] }
-    	}
-    {%
-        \endMakeFramed
-    }
-%%% PROPOSITION* (NON-NUMBERED)
-    \newenvironment{prop*}[1]{
-    	\def\FrameCommand
-        {%
-            {\color{ThmColor!75!black}\vrule width 0.3em}%
-            \hspace{0.em}%
-    		\fboxsep=\FrameSep\colorbox{ThmColor!20}%
-        }%
-        \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
-    	\ifstrempty{#1}{%
-    					{\bf Proposition} \\[0.2cm] }{%
-    					{\bf Proposition} \; (#1) \\[0.2cm] }
-    	}
-    {%
-        \endMakeFramed
-    }
-%%% LEARNING OBJECTIVES 
+	\newcounter{thm}[section]\setcounter{thm}{0}
+	\renewcommand{\thethm}{\arabic{section}.\arabic{thm}}
+	\newenvironment{thm}[1][]{%
+	\refstepcounter{thm}%
+	\ifstrempty{#1}%
+	{\mdfsetup{frametitle={	\tikz[baseline=(current bounding box.east),outer sep=0pt]
+							\node[anchor=east,rectangle,fill=white, draw=ThmColor!40,line width=1.4pt,rounded corners]
+							{\strut Theorem~\thethm};}}
+	}%
+	{\mdfsetup{frametitle={	\tikz[baseline=(current bounding box.east),outer sep=0pt]
+							\node[anchor=east,rectangle,fill=white, draw=ThmColor!40,line width=1.4pt,rounded corners]
+							{\strut Theorem~\thethm:~#1};}}%
+	}%
+	\mdfsetup{	innertopmargin=10pt,linecolor=ThmColor!40,
+				linewidth=1.4pt,topline=true,
+				backgroundcolor=ThmColor!20, roundcorner=8pt,
+				frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+				}
+	\begin{mdframed}[]
+	\def\gapcolor{ThmColor!20}\relax%
+	}{\end{mdframed}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% THEOREM* (NON-NUMBERED) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\newenvironment{thm*}[1][]{%
+	\ifstrempty{#1}%
+	{\mdfsetup{frametitle={	\tikz[baseline=(current bounding box.east),outer sep=0pt]
+							\node[anchor=east,rectangle,fill=white, draw=ThmColor!40,line width=1.4pt,rounded corners]
+							{\strut Theorem};}}
+	}%
+	{\mdfsetup{frametitle={	\tikz[baseline=(current bounding box.east),outer sep=0pt]
+							\node[anchor=east,rectangle,fill=white, draw=ThmColor!40,line width=1.4pt,rounded corners]
+							{\strut Theorem:~#1};}}%
+	}%
+	\mdfsetup{	innertopmargin=10pt,linecolor=ThmColor!40,
+				linewidth=1.4pt,topline=true,
+				backgroundcolor=ThmColor!20, roundcorner=8pt,
+				frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+				}
+	\begin{mdframed}[]
+	\def\gapcolor{ThmColor!20}\relax%
+	}{\end{mdframed}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% PROOF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\renewenvironment{proof}[1][]{%
+	\mdfsetup{	hidealllines=true,
+				singleextra={\draw[line width=1.4pt,rounded corners=8pt,color=ThmColor!40] (O) -- (O-|P) -- (P) -- (P-|O);
+				\draw[line width=4pt,color=ThmColor!50] (O) -- (P-|O);}
+				}
+	\begin{mdframed}[]
+	\def\gapcolor{white}\relax%
+	{\bf Proof:}
+	}{	\qed
+		\end{mdframed}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% LEARNING OBJECTIVES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\newenvironment{lobjs}
     {	\vspace{-0.6cm}
     	\def\FrameCommand
         {%
-    		{\color{ThmColor!90!black}\vrule width 0.6em}%
+    		{\color{ThmColor!90!black}\vrule width 1em}%
             \hspace{-0.5em}%
-    		\setlength{\fboxrule}{1pt}
+    		\setlength{\fboxrule}{1.6pt}
             \fboxsep=\FrameSep\fcolorbox{ThmColor}{white}%
         }%
     	\MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
@@ -404,7 +419,9 @@
 		\vspace{-0.2cm}
         \endMakeFramed	%
     }
-%%% SOLUTION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% SOLUTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \newenvironment{soln}{%
 		\par\bigskip
 		\noindent
@@ -412,12 +429,54 @@
 		\leftskip=0.6cm\rightskip=0.6cm
 		}{	\par\medskip
 			}
-%%% NB (NOTE) 
-    \newenvironment{nb}{%
-		\par\bigskip
-		\noindent
-		\underline{\bf NB}:
-		\leftskip=1cm\rightskip=0em\itshape
-		}{\par\medskip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% REMARK %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\newcounter{rem}[section]\setcounter{rem}{0}
+	\renewcommand{\therem}{\arabic{section}.\arabic{rem}}
+	\newenvironment{remark}[1][]{%
+	\refstepcounter{rem}%
+	\ifstrempty{#1}%
+	{\mdfsetup{frametitle={	\tikz[baseline=(current bounding box.east),outer sep=0pt]
+							\node[anchor=east,rectangle,fill=white, rounded corners]
+							{\strut $\bigstar$ Remark~\therem};}}
+	}%
+	{\mdfsetup{frametitle={	\tikz[baseline=(current bounding box.east),outer sep=0pt]
+							\node[anchor=east,rectangle,fill=white,rounded corners]
+							{\strut$\bigstar$ Remark~\therem:~#1};}}%
+	}%
+	\mdfsetup{	innertopmargin=6pt,linecolor=black,
+				linewidth=1.4pt,topline=true,
+				backgroundcolor=white, roundcorner=8pt,
+				frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+				}
+	\begin{mdframed}[]\relax%
+	}{\end{mdframed}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% GAPPED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newif\ifgapped
+\gappedfalse
+\DeclareOption{gapped}{\gappedtrue}
+\ProcessOptions\relax
+
+\ifgapped
+	\def\gapcolor{white}
+	\newenvironment{gap}[1][]{%
+	\begin{flushleft}
+	\begingroup\color{\gapcolor}\relax%
+	}{\endgroup\end{flushleft}}
+\else
+	\newenvironment{gap}[1][]{%
+	\begin{flushleft}
+	\begingroup\color{black}\relax%
+	}{\endgroup\end{flushleft}}
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \makeatother
+
+
+
+
 
