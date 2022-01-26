@@ -75,7 +75,7 @@
 \RequirePackage{etoolbox}
 \RequirePackage{float}
 \RequirePackage{framed} 
-\RequirePackage[left=2.8cm,right=2.6cm,top=3.2cm,bottom=3.2cm,footskip=1cm,marginparwidth=1.8cm]{geometry}
+\RequirePackage[left=2.4cm,right=2.2cm,top=2.2cm,bottom=2.2cm,footskip=1cm,marginparwidth=1.8cm]{geometry}
 \RequirePackage{graphicx}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{marginnote}
