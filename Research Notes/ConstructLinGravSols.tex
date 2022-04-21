@@ -1,98 +1,178 @@
-\documentclass[sections]{tjwNOTES}
+\documentclass[10pt,a4paper]{article}
+	\renewcommand{\rmdefault}{ptm}
+	
+\tolerance=1
+\hyphenpenalty=10000
+\hbadness=10000
 
+\AtBeginDocument{%
+	\renewcommand{\abstractname}{\vspace{-\baselineskip}}
+	\renewcommand{\contentsname}{}}
+	
+%%% LENGTHS
+\setlength\parindent{0pt}
+\addtolength{\voffset}{-1.5cm}
+\addtolength{\textheight}{3cm}
+\addtolength{\hoffset}{-1cm}
+\addtolength{\textwidth}{2cm}
 
 %%% PACKAGES
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+	\renewcommand{\qedsymbol}{$\blacklozenge$}
+\usepackage{array}		
+	\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+	\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+	\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\usepackage[greek,english]{babel}
+\usepackage{bbding}
+\usepackage{bm}
+\usepackage{framed} 
+\usepackage[scaled=0.92]{helvet}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{ragged2e}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{xpatch}
 
-%%% COMMANDS
+\usepackage[colorlinks=true, pdfborder={0 0 0}]{hyperref}
+	\hypersetup{	linkcolor=[rgb]{0.50, 0, 0.125},
+					citecolor=[rgb]{0,0,1}}
+
+%%% DOCUMENT COMMANDS
+\titleformat{\section}[block]
+    {\bfseries\Large\centering}
+    {\thesection}{0.5em}
+    {}[{\addvspace{0.6ex}\titlerule[1pt]\addvspace{1ex}{\normalsize\OrnamentDiamondSolid}}]
+	
+\makeatletter
+	\xpatchcmd{\@maketitle}
+	  {\@title}
+	  {\bfseries\@title}
+	  {}{}
+\makeatother
+
+\renewcommand\cfttoctitlefont{\hfill\Large\bfseries}
+\renewcommand\cftaftertoctitle{\hfill\mbox{}}
+\setcounter{tocdepth}{2}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftpnumalign}{l}
+
+%%% NEW COMMANDS
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\g}{\texttt{g}}
+\newcommand{\RR}{\mathbb{R}} 		
+\newcommand{\NN}{\mathbb{N}} 		
+\newcommand{\ZZ}{\mathbb{Z}} 		
+\newcommand{\QQ}{\mathbb{Q}} 		
+\newcommand{\CC}{\mathbb{C}} 		
+\newcommand\tensor{\otimes}	
+\newcommand\w{\wedge}	
+\newcommand\Lie{\mathcal{L}}
+\newcommand\wh[1]{\widehat{#1}}
+\newcommand\wt[1]{\widetilde{#1}}
+\newcommand\conj[1]{\overline{#1}}	
+\newcommand\df{\frac{}{}} 		
+\newcommand\QUAD[1]{\quad\text{#1}\quad}	
+\newcommand\QQUAD[1]{\qquad\text{#1}\qquad}
+\newcommand\LRA{\Longrightarrow}			
+\newcommand\lra{\longrightarrow}
+\newcommand\qLRA{\quad\Longrightarrow\quad}	
+\newcommand\qLLRA{\quad\Longleftrightarrow\quad}
+\newcommand{\FM}{\mathcal{F}(\M)}
+\newcommand{\ginv}{\g^{-1}}
+\newcommand{\Sym}{\text{Sym}\,}
+\newcommand{\Asym}{\text{Asym}\,}
+\newcommand{\INTENERGY}{\mathcal{E}}
+\newcommand{\TT}{\texttt{T}}
 \newcommand{\LapH}{\text{Lap}_{H}}
 \newcommand{\LapR}{\text{Lap}_{R}}
 \newcommand{\Div}{\text{Div}}
 \newcommand{\Hess}{\text{Hess}}
 \newcommand{\etam}{\text{\large\begin{otherlanguage}{greek}\texttt{\texteta}\end{otherlanguage}}}
+\newcommand{\etas}{\text{\begin{otherlanguage}{greek}\texttt{\texteta}\end{otherlanguage}}}
 \newcommand{\Tpsi}{\text{\large\begin{otherlanguage}{greek}\texttt{\textpsi}\end{otherlanguage}}}
-\newcommand{\FM}{\mathcal{F}(\M)}
-\newcommand{\ginv}{\g^{-1}}
 \renewcommand{\Re}{\text{Re}}
 
-%%% TITLE
-\title{Construction of Solutions to the Linearised Einstein Field Equations}
-\author{Dr Timothy J. Walton}
-\date{\today}
+%%% NEW ENVIRONMENTS
+\newenvironment{prop}[1]{
+	\refstepcounter{thmcounter}
+	\def\@currentlabel{\thesection\hspace{-0.10cm}--\arabic{thmcounter}}
+    \def\FrameCommand
+    {%
+        {\color{black}\vrule width 0.3em}%
+        \hspace{0.em}%
+		\fboxsep=\FrameSep\colorbox{white!95!black}%
+    }%
+    \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
+	\ifstrempty{#1}{%
+					{\bf Proposition\;\@currentlabel} \\[0.2cm] }{%
+					{\bf Proposition\;\@currentlabel} \; (#1) \\[0.2cm] }
+	}
+{%
+    \endMakeFramed
+}
+\newenvironment{prop*}[1]{
+	\def\FrameCommand
+    {%
+        {\color{black}\vrule width 0.3em}%
+        \hspace{0.em}%
+		\fboxsep=\FrameSep\colorbox{white!95!black}%
+    }%
+    \MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
+	\ifstrempty{#1}{%
+					{\bf Proposition} \\[0.2cm] }{%
+					{\bf Proposition} \; (#1) \\[0.2cm] }
+	}
+{%
+    \endMakeFramed
+}
+%%% RENEWED ENVIRONMENTS
+\renewenvironment{proof}
+{	\vspace{-0.6cm}
+	\def\FrameCommand
+    {%
+		{\color{black}\vrule width 0.3em}%
+        \hspace{-0.5em}%
+		\setlength{\fboxrule}{1pt}
+        \fboxsep=\FrameSep\fcolorbox{black}{white}%
+    }%
+	\MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
+	{\bf Proof:}
+}
+{	\qed%
+    \endMakeFramed	%
+	\vspace{0.3cm}
+}
+\renewenvironment{abstract}{\small	\begin{center}
+										\bfseries \vspace{-.5em}\vspace{0pt}
+									\end{center}
+									\quote
+									}
+									{\endquote}
+\makeatother
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{\bf Construction of Solutions to the Linearised Einstein Field Equations}
+\author{Timothy J. Walton}
+\date{}
+%%%
 \maketitle
 \begin{abstract}
-	In these notes we show how to construct a solution to the linearised Einstein field equations using a harmonic $C^{4}$ complex scalar field on spacetime. 
+	In these notes we show how to construct a solution to the linearised Einstein field equations using a harmonic $C^{4}$ complex scalar field on spacetime.
 \end{abstract}
-\makebox[\linewidth]{\rule{\linewidth}{1.1pt}}\\[-1.3cm]
 \tableofcontents
-\quad \\[-0.2cm]
-\makebox[\linewidth]{\rule{\linewidth}{1.pt}}
-
 \newpage
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Linearised Einstein Field Equations}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-It can be shown \cite{TW_GPulses} that the vacuum Einstein field equations on spacetime $\M$ endowed with metric $\g$ can be linearised about a flat Minkowski spacetime metric $\etam$ by finding solutions to:
-\begin{align}\label{LIN_EIN}
-	\LapR^{(\etam)}(\Tpsi) \,=\, 0 \QUAD{and} \Div^{(\etam)}(\Tpsi) \,=\, 0
-\end{align}
-from some complex covariant rank two tensor $\Tpsi$. The tensor $\Tpsi$ can then be used to construct  the linearised metric $\g=\etam+\texttt{h}$ where $\texttt{h}$ (the perturbation of $\etam$ on $\M$) is given by
-\begin{align*}
-	\texttt{h} &\,=\, \Re(\Tpsi) - \frac{1}{2}\text{tr}\!\left[\df\Re(\Tpsi)\,\right]\etam.
-\end{align*}
-The operators $\LapR^{(\etam)}$ and $\Div^{(\etam)}$ are the rough Laplacian and divergence operator respectively (see appendix~\ref{Append:notation} for further details). We adopt the notation that subscripts on differential operators are used to indicate with which metric the operators are to be associated (i.e. in this case, they are defined by the Levi-Civita connection associated with the flat Minkowski metric $\etam$ and {\it not} $\g$). 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Constructing Solutions}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In this section we outline a procedure to construct solutions to (\ref{LIN_EIN}) from a complex scalar field $\alpha$. Since the solutions are to be established on a flat Minkowski spacetime endowed with metric $\etam$, the curvature operator is identically zero: $R^{(\etam)}_{X,Y}=0$. Consequently, using (\ref{LapFunc}) and (\ref{LapRComm}), the rough Laplace operator and connection acting upon $\alpha$ or on any $1$-form $\omega\in\Gamma\Lambda^{1}\M$ commute:
-\begin{align*}
-	\LapR^{(\etam)}(\nabla^{(\etam)} \alpha) &\,=\,\nabla^{(\etam)}\left[\LapR^{(\etam)}(\alpha)\right] \QUAD{and}
-	\LapR^{(\etam)}(\nabla^{(\etam)} \omega) \,=\, \nabla^{(\etam)}\left[\LapR^{(\etam)}(\omega)\right].
-\end{align*}
-Repeated application of this result gives:
-\begin{align}\label{nabnabLap}
-	\nabla^{(\etam)}\nabla^{(\etam)}\left[\LapR^{(\etam)}(\alpha)\right] &\,=\, \nabla^{(\etam)}\LapR^{(\etam)}(\nabla^{(\etam)}\alpha) \,=\, \LapR^{(\etam)}(\nabla^{(\etam)}\nabla^{(\etam)}\alpha) \,=\, \LapR^{(\etam)}(\nabla^{(\etam)}d\alpha)
-\end{align}
-where we have used (\ref{nabfdf}). If we define a tensor $\Tpsi$ on $\M$ by:
-\begin{align}\label{TPSI_DEF}
-	\Tpsi &\,\equiv\, \nabla^{(\etam)}d\alpha
-\end{align}	
-then (\ref{nabdfSYM}) implies that $\Tpsi$ is a covariant symmetric rank-two tensor which is traceless if $\alpha$ is harmonic and so it qualifies as a candidate solution for (\ref{LIN_EIN}). From (\ref{nabnabLap}), we see that 
-\begin{align*}
-	\LapR^{(\etam)}(\alpha) &\,=\, 0 \qLRA \Tpsi \QUAD{is also traceless and} \LapR^{(\etam)}(\Tpsi) \,=\, 0.
-\end{align*}
-Furthermore
-\begin{align*}
-	\Div^{(\etam)}(\Tpsi) &\,=\, \Div^{(\etam)}(\nabla^{(\etam)}d\alpha) \,=\, \LapR^{(\etam)}(d\alpha) \,=\, d\left[ \LapR^{(\etam)}(\alpha)\right]
-\end{align*}
-using (\ref{LapRDivIDENT}) and (\ref{LapRComm}) respectively. Thus, if $\alpha$ is harmonic then $\Tpsi$ is also divergence-free. If we note that using (\ref{LapFunc}) and (\ref{LapH}) we have
-\begin{align*}
-	\LapR(\alpha) &\,=\, \LapH(\alpha) \,=\, -(d\delta + \delta d)\alpha \,=\, -\delta d\alpha,
-\end{align*}
-this implies $\LapR(\alpha)=0$ is equivalent to $\delta d \alpha=0$. Combining these results we reach the following method to construct solutions to the linearised vacuum Einstein field equations: \\
-
-\begin{prop*}{}
-	Let $\alpha$ be a $C^{4}$ differentiable complex scalar field on a $4$-dimensional orientable Lorentzian manifold $\M$ equipped with metric $\g$ and Levi-Civita connection $\nabla$. A linearisation of $\g$ about a flat Minkowski spacetime metric $\etam$ on $\M$ determines the linear metric $\g=\etam+\texttt{h}$ in terms of $\texttt{h}$: some perturbation of $\etam$ on $\M$. If $\alpha$ is harmonic then it satisfies the linearised source-free Einstein field equations:  
-	\begin{align*}
-		\delta d\alpha &\,=\, 0 \qLRA \LapR^{(\etam)}(\Tpsi) \,=\, 0 \QUAD{and} \Div^{(\etam)}(\Tpsi) \,=\, 0 \QUAD{where} \Tpsi=\nabla^{(\etam)} d\alpha
-	\end{align*}
-	in terms of the covariant symmetric rank two tensor $\Tpsi$. This may be used to construct $\texttt{h}$ and since $\Tpsi$ is  trace-free by construction, the linearised metric is given by
-	\begin{align*}
-		\g &\,=\, \etam + \texttt{h} \,=\, \etam + \Re(\Tpsi).
-	\end{align*}
-\end{prop*}
-
-\newpage
-\appendix
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Notational Preliminaries}\label{Append:notation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-These notes have been written in the language of exterior differential forms of which \cite{BennTucker} provides a strong influence and upon which most conventions used here are found. For completeness, in this section we give a brief summary of notation pertinent to these notes. \\[0.2cm]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Notational Preliminaries}\label{sect:notation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+These notes have been written in the language of exterior differential forms, strongly influenced by \cite{BennTucker} where  most of the notation and conventions can be found. A brief summary of notation pertinent to these notes is given here. \\[0.2cm]
 
 Let $\M$ denote a $4$-dimensional orientable Lorentzian manifold equipped with {\it metric tensor field} $\g$ of signature $(-,+,+,+)$. Let $\{e^{a}\}$ denote a set of local $\g$-orthonormal coframes on $\M$ with dual frame $\{X_{b}\}$ such that $e^{a}(X_{b})=\delta^{a}_{b}$ and 
 \begin{align*}
@@ -199,17 +279,72 @@ Therefore, using (\ref{eXiX}) yields the useful result:
 \end{align}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Laplace Operators Acting on a Function}
+\section{The Linearised Einstein Field Equations}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+It can be shown \cite{TW_GPulses} that the vacuum Einstein field equations on spacetime $\M$ endowed with metric $\g$ can be linearised about a flat Minkowski spacetime metric $\etam$ by finding solutions to:
+\begin{align}\label{LIN_EIN}
+	\LapR^{(\etas)}(\Tpsi) \,=\, 0 \QUAD{and} \Div^{(\etas)}(\Tpsi) \,=\, 0
+\end{align}
+from some complex covariant rank two tensor $\Tpsi$. The tensor $\Tpsi$ can then be used to construct  the linearised metric $\g=\etam+\texttt{h}$ where $\texttt{h}$ (the perturbation of $\etam$ on $\M$) is given by
+\begin{align*}
+	\texttt{h} &\,=\, \Re(\Tpsi) - \frac{1}{2}\text{tr}\!\left[\df\Re(\Tpsi)\,\right]\etam.
+\end{align*}
+The operators $\LapR^{(\etas)}$ and $\Div^{(\etas)}$ are the rough Laplacian and divergence operator respectively (see appendix~\ref{sect:notation} for further details). We adopt the notation that subscripts on differential operators are used to indicate with which metric the operators are to be associated (i.e. in this case, they are defined by the Levi-Civita connection associated with the flat Minkowski metric $\etam$ and {\it not} $\g$). 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Constructing Solutions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this section we outline a procedure to construct solutions to (\ref{LIN_EIN}) from a complex scalar field $\alpha$. Since the solutions are to be established on a flat Minkowski spacetime endowed with metric $\etam$, the curvature operator is identically zero: $R^{(\etas)}_{X,Y}=0$. Consequently, using (\ref{LapFunc}) and (\ref{LapRComm}), the rough Laplace operator and connection acting upon $\alpha$ or on any $1$-form $\omega\in\Gamma\Lambda^{1}\M$ commute:
+\begin{align*}
+	\LapR^{(\etas)}(\nabla^{(\etas)} \alpha) &\,=\,\nabla^{(\etas)}\left[\LapR^{(\etas)}(\alpha)\right] \QUAD{and}
+	\LapR^{(\etas)}(\nabla^{(\etas)} \omega) \,=\, \nabla^{(\etas)}\left[\LapR^{(\etas)}(\omega)\right].
+\end{align*}
+Repeated application of this result gives:
+\begin{align}\label{nabnabLap}
+	\nabla^{(\etas)}\nabla^{(\etas)}\left[\LapR^{(\etas)}(\alpha)\right] &\,=\, \nabla^{(\etas)}\LapR^{(\etas)}(\nabla^{(\etas)}\alpha) \,=\, \LapR^{(\etas)}(\nabla^{(\etas)}\nabla^{(\etas)}\alpha) \,=\, \LapR^{(\etas)}(\nabla^{(\etas)}d\alpha)
+\end{align}
+where we have used (\ref{nabfdf}). If we define a tensor $\Tpsi$ on $\M$ by:
+\begin{align}\label{TPSI_DEF}
+	\Tpsi &\,\equiv\, \nabla^{(\etas)}d\alpha
+\end{align}	
+then (\ref{nabdfSYM}) implies that $\Tpsi$ is a covariant symmetric rank-two tensor which is traceless if $\alpha$ is harmonic and so it qualifies as a candidate solution for (\ref{LIN_EIN}). From (\ref{nabnabLap}), we see that 
+\begin{align*}
+	\LapR^{(\etas)}(\alpha) &\,=\, 0 \qLRA \Tpsi \QUAD{is also traceless and} \LapR^{(\etas)}(\Tpsi) \,=\, 0.
+\end{align*}
+Furthermore
+\begin{align*}
+	\Div^{(\etas)}(\Tpsi) &\,=\, \Div^{(\etas)}(\nabla^{(\etas)}d\alpha) \,=\, \LapR^{(\etas)}(d\alpha) \,=\, d\left[ \LapR^{(\etas)}(\alpha)\right]
+\end{align*}
+using (\ref{LapRDivIDENT}) and (\ref{LapRComm}) respectively. Thus, if $\alpha$ is harmonic then $\Tpsi$ is also divergence-free. If we note that using (\ref{LapFunc}) and (\ref{LapH}) we have
+\begin{align*}
+	\LapR(\alpha) &\,=\, \LapH(\alpha) \,=\, -(d\delta + \delta d)\alpha \,=\, -\delta d\alpha,
+\end{align*}
+this implies $\LapR(\alpha)=0$ is equivalent to $\delta d \alpha=0$. Combining these results we reach the following method to construct solutions to the linearised vacuum Einstein field equations: \\
+
+\begin{prop*}{}
+	Let $\alpha$ be a $C^{4}$ differentiable complex scalar field on a $4$-dimensional orientable Lorentzian manifold $\M$ equipped with metric $\g$ and Levi-Civita connection $\nabla$. A linearisation of $\g$ about a flat Minkowski spacetime metric $\etam$ on $\M$ determines the linear metric $\g=\etam+\texttt{h}$ in terms of $\texttt{h}$: some perturbation of $\etam$ on $\M$. If $\alpha$ is harmonic then it satisfies the linearised source-free Einstein field equations:  
+	\begin{align*}
+		\delta d\alpha &\,=\, 0 \qLRA \LapR^{(\etas)}(\Tpsi) \,=\, 0 \QUAD{and} \Div^{(\etas)}(\Tpsi) \,=\, 0 \QUAD{where} \Tpsi=\nabla^{(\etas)} d\alpha
+	\end{align*}
+	in terms of the covariant symmetric rank two tensor $\Tpsi$. This may be used to construct $\texttt{h}$ and since $\Tpsi$ is  trace-free by construction, the linearised metric is given by
+	\begin{align*}
+		\g &\,=\, \etam + \texttt{h} \,=\, \etam + \Re(\Tpsi).
+	\end{align*}
+\end{prop*}
+
+\newpage
+\appendix
+\addtocontents{toc}{\protect\vskip1cm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Laplace Operators Acting on a Function}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{prop*}{}
 	Let $f$ be a (complex) function on a $4$-dimensional orientable Lorentzian manifold $\M$ equipped with metric $\g$ and Levi-Civita connection $\nabla$. The action of the Hodge Laplace operator is identical to that of the rough Laplace operator acting on $f$:
 	\begin{align}\label{LapFunc}
 		\LapR(f) &\,=\, \LapH(f). 
 	\end{align}
 \end{prop*}
-
-This proposition can be proven directly using the definitions, identities and properties discussed in the previous section.\\
 
 \begin{proof}
 	Let $f$ be a (possibly complex) function on $\M$. Since $\delta f=0$ for all functions $f$, (\ref{LapH}) gives:
@@ -229,7 +364,7 @@ This proposition can be proven directly using the definitions, identities and pr
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Laplace Operators Acting on a 1-form}
+\section{Laplace Operators Acting on a 1-form}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 With respect to the rough and Hodge Laplace operators on $\M$ defined in the previous section, we show the following: \\[0.2cm]
 
@@ -240,7 +375,7 @@ With respect to the rough and Hodge Laplace operators on $\M$ defined in the pre
 	\end{align}
 \end{prop*}
 
-We shall now prove this proposition using a number of the relations given in the preceding section. \\
+This proposition can be proven directly using a number of the relations given in the preceding section. \\
 
 \begin{proof}
 	Let $\omega\in\Gamma\Lambda^{1}\M$, then using (\ref{d2nabla}) and properties of the connection:
@@ -267,13 +402,14 @@ We shall now prove this proposition using a number of the relations given in the
 		\nonumber \LapH(\omega) &\,=\, -(\delta d + d\delta)\omega \\[0.2cm]
 		\nonumber  &\,=\, \LapR(\omega) - e^{b} \w i_{X^{a}}\left[\Hess_{X_{a},X_{b}} - \nabla_{X_{b}}\nabla_{X_{a}} \right]\omega	 + e^{b} \w  (\nabla_{X_{a}}\omega)(\nabla_{X_{b}}X^{a}) \\[0.2cm]
 		\nonumber  &\,=\, \LapR(\omega) - e^{b} \w i_{X^{a}}\left[R_{X_{a},X_{b}} - \nabla_{\nabla_{X_{b}}X_{a}} \right]\omega + e^{b} \w  (\nabla_{X_{a}}\omega)(\nabla_{X_{b}}X^{a}) \\[0.2cm]
-		\label{Weit3} &\,=\,  \LapR(\omega) - e^{b} \w i_{X^{a}}R_{X_{a},X_{b}}\,\omega + e^{b} \w \left[i_{X^{a}}\nabla_{\nabla_{X_{b}}X_{a}}\omega + (\nabla_{X_{a}}\omega)(\nabla_{X_{b}}X^{a})\right]
+		\nonumber &\,=\,  \LapR(\omega) - e^{b} \w i_{X^{a}}R_{X_{a},X_{b}}\,\omega \\
+			\label{Weit3} &\hspace{1.8cm}	 + e^{b} \w \left[i_{X^{a}}\nabla_{\nabla_{X_{b}}X_{a}}\omega+ (\nabla_{X_{a}}\omega)(\nabla_{X_{b}}X^{a})\right]
 	\end{align}
 	using the definition of the curvature operator (\ref{CurvOp}). This can be further simplified by noting that
 	\begin{align*}
-		i_{X^{a}}R_{X_{a},X_{b}}\,\omega &\,=\, (\,R_{X_{a},X_{b}}\,\omega \,)(X^{a}) \,=\, e^{a}(\,R_{X_{a},X_{b}}\,\wt{\omega} \,) \,=\, \texttt{R}(X_{a},X_{b},\wt{\omega},e^{a}) \,=\, \texttt{R}(\wt{\omega},\wt{e^{a}},X_{a},\wt{X_{b}}) \\[0.2cm]
-		&\,=\, \texttt{R}(\wt{\omega},X^{a},X_{a},e_{b}) \,=\, e_{b}( \,R_{\,\wt{\omega},X^{a}}\,X_{a} \,) \,=\, (\, R_{\,\wt{\omega},X^{a}}\,\wt{X_{a}}\, )(\wt{e_{b}}) \\[0.2cm]
-		&\,=\, ( R_{\,\wt{\omega},X^{a}}\,e_{a}\, )(X_{b})  \,=\, i_{X_{b}}\,R_{\,\wt{\omega},X^{a}}\,e_{a} \,=\, i_{X_{b}}\,R_{\,\wt{\omega},X_{a}}\,e^{a}
+		i_{X^{a}}R_{X_{a},X_{b}}\,\omega &\,=\, (\,R_{X_{a},X_{b}}\,\omega \,)(X^{a}) \,=\, e^{a}(\,R_{X_{a},X_{b}}\,\wt{\omega} \,) \,=\, \texttt{R}(X_{a},X_{b},\wt{\omega},e^{a}) \\[0.2cm]
+		&\,=\, \texttt{R}(\wt{\omega},\wt{e^{a}},X_{a},\wt{X_{b}})  \,=\, \texttt{R}(\wt{\omega},X^{a},X_{a},e_{b}) \,=\, e_{b}( \,R_{\,\wt{\omega},X^{a}}\,X_{a} \,)  \\[0.2cm]
+		&\,=\, (\, R_{\,\wt{\omega},X^{a}}\,\wt{X_{a}}\, )(\wt{e_{b}}) \,=\, ( R_{\,\wt{\omega},X^{a}}\,e_{a}\, )(X_{b})  \,=\, i_{X_{b}}\,R_{\,\wt{\omega},X^{a}}\,e_{a} \,=\, i_{X_{b}}\,R_{\,\wt{\omega},X_{a}}\,e^{a}
 	\end{align*}
 	using the curvature tensor (\ref{CurvT}), its symmetry properties (\ref{CurvT_SYM}) and the metric compatibility of the connection, so that it commutes with the metric dual operation. Using this relation and (\ref{eXiX}) we may write the second term in (\ref{Weit3}) as
 	\begin{align*}
@@ -300,9 +436,9 @@ We shall now prove this proposition using a number of the relations given in the
 \end{proof}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Levi-Civita Connection}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section we collect a few useful results regarding the Levi-Civita connection:
 
 \begin{prop*}{}
@@ -313,7 +449,7 @@ In this section we collect a few useful results regarding the Levi-Civita connec
 	in terms of the exterior derivative $d$.
 \end{prop*}
 
-This result follows trivially from the definitions in appendix~\ref{Append:notation}:\\[0.2cm]
+This result follows trivially from the definitions in appendix~\ref{sect:notation}:\\[0.2cm]
 
 \begin{proof}
 	Recalling that $\nabla\equiv e^{a}\tensor \nabla_{X_{a}}$, we have
@@ -329,7 +465,7 @@ We now include a result that will be of importance in our construction of soluti
 	Let $\omega\in\Gamma\Lambda^{1}\M$ be an exact form on a $4$-dimensional orientable Lorentzian manifold $\M$ equipped with metric $\g$ and Levi-Civita connection $\nabla$. Let $\omega=df$ for some function $f$ on $\M$, then $\nabla\omega$ is a covariant symmetric rank two tensor on $\M$. Furthermore, if the function $f$ is harmonic then $\nabla\omega$ is traceless. 
 \end{prop*}
 
-As with the previous propositions, we proceed using the definitions and identities outlined in appendix~\ref{Append:notation}:\\[0.2cm]
+As with the previous propositions, we proceed using the definitions and identities outlined in appendix~\ref{sect:notation}:\\[0.2cm]
 
 \begin{proof}
 	Let $\omega\in\Gamma\Lambda^{1}\M$ be exact: $\omega=df$ for some function $f$ on $\M$, then
@@ -354,9 +490,9 @@ These two results imply
 \end{align}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{An Identity Involving the Rough Laplace Operator and the Divergence Operator}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{prop*}{}
 	Let $\omega \in \Gamma\Lambda^{1}\M$ be an {\it exact form} on a $4$-dimensional orientable Lorentzian manifold $\M$ equipped with metric $\g$ and Levi-Civita connection $\nabla$. Let $\omega=df$ for some function $f$ on $\M$ then
 	\begin{align}\label{LapRDivIDENT}
@@ -364,7 +500,7 @@ These two results imply
 	\end{align}
 \end{prop*}
 
-This proposition can be proved directly from the definitions and results from appendix~\ref{Append:notation}:\\
+This proposition can be proved directly from the definitions and results from appendix~\ref{sect:notation}:\\
 
 \begin{proof}
 	Let $\omega\in\Gamma\Lambda^{1}\M$ with $\omega=df$ for some function $f$ on $\M$, then $\texttt{T}=\nabla\omega$ is a covariant symmetric rank two on $\M$. We have
@@ -386,9 +522,9 @@ This proposition can be proved directly from the definitions and results from ap
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Commutators involving Laplace Operators}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 We begin with a straightforward result following from the definitions of the Hodge Laplace operator:\\[0.2cm]
 
 \begin{prop*}{}
@@ -439,17 +575,6 @@ As with the previous result, the equality of the commutators follows from $\LapR
 	\bibitem{Spivak}		M. Spivak, {\it A Comprehensive Introduction to Differential Geometry: Volume Two}, Publish or Perish (1999, Third Edition)	
 \end{thebibliography}
 
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
